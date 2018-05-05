@@ -22,6 +22,7 @@
 # Known bugs:
 + Nothing...
 # Changelog:
++ v1.2 - Added game to the bot.
 + v1.1 - Added `help` command.
 + v1.0 - Release!
 # TODO:
