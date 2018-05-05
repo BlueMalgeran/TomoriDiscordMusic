@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://i.imgur.com/ZnxxmE4.png">
+</p>
+
 # Build Status:
 [![Build Status](https://travis-ci.com/BlueMalgeran/TomoriDiscordMusic.svg?branch=master)](https://travis-ci.com/BlueMalgeran/TomoriDiscordMusic)
 # TomoriDiscordMusic
