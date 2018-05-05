@@ -5,7 +5,7 @@
   <a  href="https://discord.gg/KugMg6K" target="_blank">Join my Discord server</a><br>
 </p>
 <p align=center>
-<a href="https://discordapp.com/oauth2/authorize?client_id=392860635035074572&scope=bot&permissions=805314622" target="_blank">My website</a>
+<a href="http://bluemalgeran.com/" target="_blank">My website</a>
 </p>
 
 # Setting the bot up:
