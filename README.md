@@ -1,10 +1,10 @@
 # Build Status:
 [![Build Status](https://travis-ci.com/BlueMalgeran/TomoriDiscordMusic.svg?branch=master)](https://travis-ci.com/BlueMalgeran/TomoriDiscordMusic)
 # TomoriDiscordMusic
-<p align=center>
-  <a  href="https://discord.gg/KugMg6K" target="_blank">Join my Discord server</a><br>
+<p>
+  <a href="https://discord.gg/KugMg6K" target="_blank">Join my Discord server</a><br>
 </p>
-<p align=center>
+<p>
 <a href="http://bluemalgeran.com/" target="_blank">My website</a>
 </p>
 
