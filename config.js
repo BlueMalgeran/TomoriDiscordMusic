@@ -1,5 +1,5 @@
-exports.TOKEN = 'NDQyMDk3NjkzNzkyNDAzNDYw.Dc53GA.ytDs_e2NFj9IXD9jCdLHwZq1cds';
+exports.TOKEN = 'TOKEN'; // The token of the bot.
 
-exports.PREFIX = 't!';
+exports.PREFIX = 't!'; // The prefix of the bot.
 
-exports.GOOGLE_API_KEY = 'AIzaSyBkZzwgi5nXycZfD0FUXjeW-0mAw8NgRQk';
+exports.GOOGLE_API_KEY = 'KEY'; // Google API key for the search results. (https://developers.google.com)
