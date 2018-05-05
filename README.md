@@ -4,6 +4,10 @@
     <img src="https://discordapp.com/api/guilds/424202281001680897/widget.png?style=banner4">
   </a><br>
 </p>
+<p align=center>
+<a href="https://discordapp.com/oauth2/authorize?client_id=392860635035074572&scope=bot&permissions=805314622" target="_blank">My website</a>
+</p>
+
 # Setting the bot up:
 1. Install Node.js and npm.
 2. Type `npm install` and it'll install the dependencies
