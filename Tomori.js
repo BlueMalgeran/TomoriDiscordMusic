@@ -130,6 +130,39 @@ ${serverQueue.songs.map(song => `**- ${song.title}**`).join('\n')}
 
 Now playing: **${serverQueue.songs[0].title}**
         `);
+    } else if (msg.content.startsWith(`${PREFIX}help`)) {
+        console.log(`${msg.author.tag} has been used the ${PREFIX}help command in ${msg.guild.name}`);
+
+        msg.channel.send('Please check your direct messages :inbox_tray:');
+
+        msg.react('✅');
+
+        msg.author.send({embed: {
+            color: 15158332,
+            author: {
+              name: client.user.username,
+              icon_url: client.user.avatarURL
+            },
+            fields: [{
+                name: "Bot's commands:",
+                value: `**${PREFIX}help** - This message!\n\
+**${PREFIX}play** - Play a song from YouTube.\n\
+**${PREFIX}skip** - Skip a song.\n\
+**${PREFIX}stop** - Stops the music.\n\
+**${PREFIX}volume** - Change the volume of the bot.\n\
+**${PREFIX}np** - The song that now playing.\n\
+**${PREFIX}queue** - See the queue of songs.\n\
+**${PREFIX}pause** - Pause the music.\n\
+**${PREFIX}resume** - Resume the music.`
+              }
+            ],
+            timestamp: new Date(),
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: "© Blue Malgeran"
+            }
+          }
+        });
     } else if (msg.content.startsWith(`${PREFIX}pause`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}pause command in ${msg.guild.name}`);
         if (serverQueue && serverQueue.playing) {
