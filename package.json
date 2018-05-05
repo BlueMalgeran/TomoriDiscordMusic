@@ -1,0 +1,23 @@
+{
+  "name": "tomori",
+  "version": "0.1.0",
+  "description": "A simple music bot.",
+  "main": "Tomori.js",
+  "scripts": {
+    "test": ""
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "discordbot"
+  ],
+  "author": "BlueMalgeran.com",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "ffmpeg-binaries": "^3.2.2-3",
+    "opusscript": "0.0.6",
+    "simple-youtube-api": "^5.0.2",
+    "ytdl-core": "^0.20.2"
+  }
+}
