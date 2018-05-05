@@ -22,7 +22,8 @@
 # Known bugs:
 + Nothing...
 # Changelog:
-+ v1.0 - Release
++ v1.1 - Added `help` command.
++ v1.0 - Release!
 # TODO:
 + Nothing so far...
 # License:
