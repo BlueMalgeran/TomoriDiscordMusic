@@ -13,7 +13,8 @@ client.on('warn', console.warn);
 
 client.on('error', console.error);
 
-client.on('ready', () =>  console.log(`
+client.on('ready', () => { 
+console.log(`
 ------------------------------------------------------
 > Logging in...
 ------------------------------------------------------
@@ -25,7 +26,10 @@ LET'S GO!
 ------------------------------------------------------
 ----------Bot created by Blue Malgeran#3106-----------
 ------------------------------------------------------
-----------------------Bot's logs----------------------`));
+----------------------Bot's logs----------------------`);
+
+client.user.setActivity({game: {name: "with Blue Malgeran", type: 0}})
+});
 
 client.on('disconnect', () => console.log('I just disconnected, making sure you know, I will reconnect now...'));
 
