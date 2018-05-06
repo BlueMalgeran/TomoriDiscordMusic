@@ -47,13 +47,37 @@ client.on('message', async msg => { // eslint disable line
         console.log(`${msg.author.tag} has been used the ${PREFIX}play command in ${msg.guild.name}`);
 
         const voiceChannel = msg.member.voiceChannel;
-		if (!voiceChannel) return msg.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
+        if (!voiceChannel) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'I\'m sorry but you need to be in a voice channel to play music!'
+              }
+            ]
+          }
+        });
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
 		if (!permissions.has('CONNECT')) {
-			return msg.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
+            return msg.channel.send({embed: {
+                color: 15158332,
+                fields: [{
+                    name: "❌ Error",
+                    value: 'I cannot connect to your voice channel, make sure I have the proper permissions!'
+                  }
+                ]
+              }
+            });
 		}
 		if (!permissions.has('SPEAK')) {
-			return msg.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
+			return msg.channel.send({embed: {
+                color: 15158332,
+                fields: [{
+                    name: "❌ Error",
+                    value: 'I cannot speak to your voice channel, make sure I have the proper permissions!'
+                  }
+                ]
+              }
+            });
         }
         
         if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
@@ -63,7 +87,15 @@ client.on('message', async msg => { // eslint disable line
                 const video2 = await youtube.getVideoByID(video.id); // eslint-disable-line no-await-in-loop
                 await handleVideo(video2, msg, voiceChannel, true) // eslint-disable-line no-await-in-loop
             }
-            return msg.channel.send(`Playlist: **${playlist.title}** has been added to the queue!`);
+            return msg.channel.send({embed: {
+                color: 15158332,
+                fields: [{
+                    name: "✅ Added playlist",
+                    value: `Playlist: **${playlist.title}** has been added to the queue!`
+                  }
+                ]
+              }
+            });
         } else {
             try {
                 var video = await youtube.getVideo(url);
@@ -71,13 +103,19 @@ client.on('message', async msg => { // eslint disable line
                 try {
                     var videos = await youtube.searchVideos(searchString, 10);
                     let index = 0;
-                    msg.channel.send(`
-__**Song selection:**__
-
-${videos.map(video2 => `\`${++index}\` **-** ${video2.title}`).join('\n')}
-
-**You have 10 seconds to provide a value to select on of the search results ranging from 1-10.**
-                    `);
+                    msg.channel.send({embed: {
+                        color: 15158332,
+                        fields: [{
+                            name: "📋 Song selection",
+                            value: `${videos.map(video2 => `\`${++index}\` **-** ${video2.title}`).join('\n')}`
+                          },
+                          {
+                              name: "You have 10 seconds!",
+                              value: "Provide a value to select on of the search results ranging from 1-10."
+                          }
+                        ]
+                      }
+                    });
                     // eslint-disable-next-line max-depth
                     try {
                         var response = await msg.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
@@ -87,13 +125,29 @@ ${videos.map(video2 => `\`${++index}\` **-** ${video2.title}`).join('\n')}
                         });
                     } catch (err) {
                         console.error(err);
-                        return msg.channel.send('No or invalid value entered, cancelling video selection...');
+                        return msg.channel.send({embed: {
+                            color: 15158332,
+                            fields: [{
+                                name: "❌ Error",
+                                value: 'No or invalid value entered, cancelling video selection...'
+                              }
+                            ]
+                          }
+                        });
                     }
                     const videoIndex = (response.first().content);
                     var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 } catch (err) {
                     console.error(err);
-                    return msg.channel.send('I could not obtain any search results.');
+                    return msg.channel.send({embed: {
+                        color: 15158332,
+                        fields: [{
+                            name: "❌ Error",
+                            value: 'I could not obtain any search results.'
+                          }
+                        ]
+                      }
+                    });
                 }
             }
 
@@ -101,40 +155,134 @@ ${videos.map(video2 => `\`${++index}\` **-** ${video2.title}`).join('\n')}
         }
     } else if (msg.content.startsWith(`${PREFIX}skip`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}skip command in ${msg.guild.name}`);
-        if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-        if (!serverQueue) return msg.channel.send('There is nothing playing that I could skip for you.');
+        if (!msg.member.voiceChannel) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'You are not in a voice channel!'
+              }
+            ]
+          }
+        });
+        if (!serverQueue) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing that I could skip for you.'
+              }
+            ]
+          }
+        });
         serverQueue.connection.dispatcher.end();
         return undefined;
     } else if (msg.content.startsWith(`${PREFIX}stop`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}stop command in ${msg.guild.name}`);
-        if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-        if (!serverQueue) return msg.channel.send();
+        if (!msg.member.voiceChannel) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'You are not in a voice channel!'
+              }
+            ]
+          }
+        });
+        if (!serverQueue) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing that I could stop for you.'
+              }
+            ]
+          }
+        });
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end('Stop command has been used!');
         return undefined;
     } else if (msg.content.startsWith(`${PREFIX}volume`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}volume command in ${msg.guild.name}`);
-        if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
-        if (!serverQueue) return msg.channel.send('There is nothing playing.');
-        if (!args[1]) return msg.channel.send(`The current volume is: **${serverQueue.volume}**`);
+        if (!msg.member.voiceChannel) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'You are not in a voice channel!'
+              }
+            ]
+          }
+        });
+        if (!serverQueue) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing.'
+              }
+            ]
+          }
+        });
+        if (!args[1]) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "🔊 Volume",
+                value: `The current volume is: **${serverQueue.volume}**`
+              }
+            ]
+          }
+        });
         serverQueue.volume = args[1];
         serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
-        return msg.channel.send(`I set the volume to: **${args[1]}**`);
+        return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "🔊 Volume",
+                value: `I set the volume to: **${args[1]}**`
+              }
+            ]
+          }
+        });
     } else if (msg.content.startsWith(`${PREFIX}np`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}np command in ${msg.guild.name}`);
-        if (!serverQueue) return msg.channel.send('There is nothing playing.');
-        return msg.channel.send(`Now playing: **${serverQueue.songs[0].title}**`);
+        if (!serverQueue) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing that I could skip for you.'
+              }
+            ]
+          }
+        });
+        return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "🎵 Now playing",
+                value: `**${serverQueue.songs[0].title}**`
+              }
+            ]
+          }
+        });
     } else if (msg.content.startsWith(`${PREFIX}queue`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}queue command in ${msg.guild.name}`);
-        if (!serverQueue) return msg.channel.send('There is nothing playing.');
-        return msg.channel.send(`
-__**Song queue:**__
-
-${serverQueue.songs.map(song => `**- ${song.title}**`).join('\n')}
-
-Now playing: **${serverQueue.songs[0].title}**
-        `);
-    } else if (msg.content.startsWith(`${PREFIX}help`)) {
+        if (!serverQueue) return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing that I could skip for you.'
+              }
+            ]
+          }
+        });
+        return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "📋 Song queue",
+                value: `${serverQueue.songs.map(song => `**- ${song.title}**`).join('\n')}`
+              },
+              {
+                  name: "🎵 Now playing",
+                  value: `**${serverQueue.songs[0].title}**`
+              }
+            ]
+          }
+        }); 
+        } else if(msg.content.startsWith(`${PREFIX}help`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}help command in ${msg.guild.name}`);
 
         msg.channel.send('Please check your direct messages :inbox_tray:');
@@ -172,22 +320,55 @@ Now playing: **${serverQueue.songs[0].title}**
         if (serverQueue && serverQueue.playing) {
             serverQueue.playing = false;
         serverQueue.connection.dispatcher.pause();
-        return msg.channel.send('Paused the music for you!');
+        return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "⏯️ Pause",
+                value: 'Paused the music for you!'
+              }
+            ]
+          }
+        });
         }
-        return msg.channel.send('There is nothing playing.');
-
-    }  else if (msg.content.startsWith(`${PREFIX}resume`)) {
+        return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing.'
+              }
+            ]
+          }
+        });
+    } else if (msg.content.startsWith(`${PREFIX}resume`)) {
         console.log(`${msg.author.tag} has been used the ${PREFIX}resume command in ${msg.guild.name}`);
+
         if (serverQueue && !serverQueue.playing) {
             serverQueue.playing =  true;
             serverQueue.connection.dispatcher.resume();
-            return msg.channel.send('Resumed the music for you!');
+            return msg.channel.send({embed: {
+                color: 15158332,
+                fields: [{
+                    name: "⏯️ Resume",
+                    value: 'Resumed the music for you!'
+                  }
+                ]
+              }
+            });
         }
-        return msg.channel.send('There is nothing playing.');
+        return msg.channel.send({embed: {
+            color: 15158332,
+            fields: [{
+                name: "❌ Error",
+                value: 'There is nothing playing or something is already playing.'
+              }
+            ]
+          }
+        });
     }
 
     return undefined;
 });
+
 
 async function handleVideo(video, msg, voiceChannel, playlist = false) {
     const serverQueue = queue.get(msg.guild.id);
@@ -216,12 +397,28 @@ async function handleVideo(video, msg, voiceChannel, playlist = false) {
             } catch (error) {
                 console.error(`I could not join the voice channel: ${error}`);
                 queue.delete(msg.guild.id);
-                return msg.channel.send(`I could not join the voice channel: ${error}`);
+                return msg.channel.send({embed: {
+                    color: 15158332,
+                    fields: [{
+                        name: "❌ Error",
+                        value: `I could not join the voice channel: ${error}`
+                      }
+                    ]
+                  }
+                });
             }
         } else {
             serverQueue.songs.push(song);
             if (playlist) return undefined;
-            else return msg.channel.send(`**${song.title}** has been added to the queue!`);
+            else return msg.channel.send({embed: {
+                color: 15158332,
+                fields: [{
+                    name: "✅ Added song",
+                    value: `**${song.title}** has been added to the queue!`
+                  }
+                ]
+              }
+            });
         }
         return undefined;
 }
@@ -244,7 +441,15 @@ function play(guild, song) {
         .on('error', error => console.log(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 
-    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+    serverQueue.textChannel.send({embed: {
+        color: 15158332,
+        fields: [{
+            name: "✅ Start playing",
+            value: `Start playing: **${song.title}**`
+          }
+        ]
+      }
+    });
 }
 
 client.login(TOKEN);
